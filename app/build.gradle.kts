@@ -4,14 +4,10 @@ plugins {
 
 android {
     namespace = "com.example.aroundme"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.aroundme"
+        applicationId = "com.example.aroundme"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -49,4 +45,7 @@ dependencies {
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.lifecycle.livedata)
     annotationProcessor(libs.room.compiler)
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 }
