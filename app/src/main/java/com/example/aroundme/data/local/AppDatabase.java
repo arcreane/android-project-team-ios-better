@@ -11,6 +11,8 @@ import com.example.aroundme.model.Event;
 @Database(entities = {Event.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
+    public abstract EventDao eventDao();
+
     private static volatile AppDatabase INSTANCE;
 
     public static AppDatabase getInstance(Context context) {
