@@ -14,15 +14,12 @@ import java.util.List;
 @Dao
 public interface EventDao {
 
-    // Insert or replace if same ID already exists (user re-favorites an event)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertFavorite(Event event);
 
     @Delete
     void deleteFavorite(Event event);
 
-    // LiveData means: whenever the table changes, any observer is automatically notified.
-    // The UI always shows fresh data without polling.
     @Query("SELECT * FROM favorites ORDER BY date ASC")
     LiveData<List<Event>> getAllFavorites();
 
