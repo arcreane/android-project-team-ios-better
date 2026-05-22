@@ -2,11 +2,14 @@ package com.example.aroundme.model;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-@Entity
+import androidx.annotation.NonNull;
+
+@Entity(tableName = "favorites")
 public class Event {
 
     @PrimaryKey
-    private String id;
+    @NonNull
+    private String id = "";
     private String name;
     private String category;
     private String date;
@@ -20,10 +23,11 @@ public class Event {
 
     public Event() {}
 
+    @NonNull
     public String getId() {
         return id;
     }
-    public void setId(String id) {
+    public void setId(@NonNull String id) {
         this.id = id;
     }
 
