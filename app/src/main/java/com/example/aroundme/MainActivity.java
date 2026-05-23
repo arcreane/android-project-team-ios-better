@@ -313,8 +313,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else if (id == R.id.menu_filter_arts) {
             currentCategory = "arts";
         } else if (id == R.id.menu_open_list) {
-            // Navigate to EventListActivity (R1 — explicit Intent)
-            Intent intent = new Intent(this, com.aroundme.ui.list.EventListActivity.class);
+            Intent intent = new Intent(this, com.example.aroundme.ui.list.EventListActivity.class);
             if (lastLocation != null) {
                 intent.putExtra("lat", lastLocation.getLatitude());
                 intent.putExtra("lng", lastLocation.getLongitude());
