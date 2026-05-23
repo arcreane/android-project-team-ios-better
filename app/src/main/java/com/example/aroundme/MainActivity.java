@@ -167,4 +167,168 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
     }
 
+    private void centerMapOn(double lat, double lng) {
+        if (googleMap == null) return;
+        LatLng position = new LatLng(lat, lng);
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 13f));
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap map) {
+        googleMap = map;
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            googleMap.setMyLocationEnabled(true);
+        }
+
+
+        googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
+
+        googleMap.setOnMarkerClickListener(marker -> {
+            Event event = markerEventMap.get(marker);
+            if (event != null) {
+                viewModel.setSelectedEvent(event);
+            }
+            return false;
+        });
+
+        List<Event> existing = viewModel.getEvents().getValue();
+        if (existing != null) {
+            placeMarkersOnMap(existing);
+        }
+
+
+        requestLocationPermission();
+    }
+
+    private void placeMarkersOnMap(List<Event> events) {
+        googleMap.clear();
+        markerEventMap.clear();
+
+        for (Event event : events) {
+            if (event.getLatitude() == 0 && event.getLongitude() == 0) continue;
+
+            LatLng position = new LatLng(event.getLatitude(), event.getLongitude());
+
+            MarkerOptions options = new MarkerOptions()
+                    .position(position)
+                    .title(event.getName())
+                    .snippet(event.getDate())
+                    .icon(BitmapDescriptorFactory.defaultMarker(
+                            categoryToHue(event.getCategory())));
+
+            Marker marker = googleMap.addMarker(options);
+            if (marker != null) {
+                markerEventMap.put(marker, event);
+            }
+        }
+    }
+
+    private float categoryToHue(String category) {
+        if (category == null) return BitmapDescriptorFactory.HUE_RED;
+        switch (category.toLowerCase()) {
+            case "music":  return BitmapDescriptorFactory.HUE_AZURE;
+            case "sports": return BitmapDescriptorFactory.HUE_GREEN;
+            case "arts":
+            case "arts & theatre": return BitmapDescriptorFactory.HUE_VIOLET;
+            default:       return BitmapDescriptorFactory.HUE_RED;
+        }
+    }
+
+    // API call
+
+    private void loadEvents(double lat, double lng) {
+        viewModel.setLoading(true);
+        repository.fetchNearbyEvents(lat, lng, 10, currentCategory, new EventRepository.RepoCallback<List<Event>>() {
+            @Override
+            public void onSuccess(List<Event> result) {
+                viewModel.setLoading(false);
+                viewModel.setEvents(result);
+            }
+
+            @Override
+            public void onError(String message) {
+                viewModel.setLoading(false);
+                viewModel.setErrorMessage(message);
+            }
+        });
+    }
+
+    // Landscape side panel
+
+
+    private void showEventPanel(Event event) {
+        if (panelSelectedEvent != null) {
+
+            panelSelectedEvent.setVisibility(View.VISIBLE);
+            tvPanelEventName.setText(event.getName());
+            tvPanelEventDate.setText(event.getDate());
+            tvPanelVenueName.setText(event.getVenueName());
+
+            View btnDetail = findViewById(R.id.btnPanelViewDetail);
+            if (btnDetail != null) {
+                btnDetail.setOnClickListener(v -> openDetailActivity(event));
+            }
+        } else {
+            openDetailActivity(event);
+        }
+    }
+
+    private void openDetailActivity(Event event) {
+        Intent intent = new Intent(this, EventDetailActivity.class);
+        // Pass the event ID; the detail activity fetches full data from the repository
+        intent.putExtra(EventDetailActivity.EXTRA_EVENT_ID, event.getId());
+        // We also pass the object fields directly to avoid a second DB/API call
+        intent.putExtra(EventDetailActivity.EXTRA_EVENT_NAME, event.getName());
+        intent.putExtra(EventDetailActivity.EXTRA_EVENT_DATE, event.getDate());
+        intent.putExtra(EventDetailActivity.EXTRA_EVENT_TIME, event.getTime());
+        intent.putExtra(EventDetailActivity.EXTRA_VENUE_NAME, event.getVenueName());
+        intent.putExtra(EventDetailActivity.EXTRA_VENUE_ADDRESS, event.getVenueAddress());
+        intent.putExtra(EventDetailActivity.EXTRA_LATITUDE, event.getLatitude());
+        intent.putExtra(EventDetailActivity.EXTRA_LONGITUDE, event.getLongitude());
+        intent.putExtra(EventDetailActivity.EXTRA_IMAGE_URL, event.getImageUrl());
+        intent.putExtra(EventDetailActivity.EXTRA_CATEGORY, event.getCategory());
+        startActivity(intent);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.menu_filter_all) {
+            currentCategory = "";
+        } else if (id == R.id.menu_filter_music) {
+            currentCategory = "music";
+        } else if (id == R.id.menu_filter_sports) {
+            currentCategory = "sports";
+        } else if (id == R.id.menu_filter_arts) {
+            currentCategory = "arts";
+        } else if (id == R.id.menu_open_list) {
+            // Navigate to EventListActivity (R1 — explicit Intent)
+            Intent intent = new Intent(this, com.aroundme.ui.list.EventListActivity.class);
+            if (lastLocation != null) {
+                intent.putExtra("lat", lastLocation.getLatitude());
+                intent.putExtra("lng", lastLocation.getLongitude());
+            }
+            startActivity(intent);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+
+        // Reload events with the new category filter
+        if (lastLocation != null) {
+            loadEvents(lastLocation.getLatitude(), lastLocation.getLongitude());
+        }
+        return true;
+    }
 }
