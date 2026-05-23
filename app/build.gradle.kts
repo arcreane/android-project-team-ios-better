@@ -24,6 +24,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "TM_API_KEY", "\"${localProperties["TICKETMASTER_API_KEY"]}\"")
+        manifestPlaceholders["mapsApiKey"] = localProperties["GOOGLE_MAPS_KEY"] as String
     }
 
     buildTypes {
@@ -63,4 +64,6 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
+    implementation("com.google.android.gms:play-services-maps:19.0.0")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
 }

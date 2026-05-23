@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_open_list"
+        android:title="Event List"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_filter"
+        android:title="Filter"
+        app:showAsAction="always">
+
+        <menu>
+            <item android:id="@+id/menu_filter_all"    android:title="All"    />
+            <item android:id="@+id/menu_filter_music"  android:title="Music"  />
+            <item android:id="@+id/menu_filter_sports" android:title="Sports" />
+            <item android:id="@+id/menu_filter_arts"   android:title="Arts"   />
+        </menu>
+
+    </item>
+
+</menu>
