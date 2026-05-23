@@ -167,8 +167,4 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
     }
 
-    private void centerMapOn(double lat, double lng) {
-        if (googleMap == null) return;
-        LatLng position = new LatLng(lat, lng);
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 13f));
-    }
+}
