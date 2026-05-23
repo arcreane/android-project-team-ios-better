@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AroundMe">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true">
 
             <meta-data
@@ -29,6 +29,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.detail.EventDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity" />
+
+
     </application>
 
 </manifest>
