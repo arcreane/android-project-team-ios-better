@@ -20,7 +20,7 @@ public class EventDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Temporary: reuse main layout until Chapter 4
+
         setContentView(R.layout.activity_main);
     }
 }
