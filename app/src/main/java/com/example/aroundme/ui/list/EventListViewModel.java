@@ -1,10 +1,10 @@
-package com.aroundme.ui.list;
+package com.example.aroundme.ui.list;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.aroundme.model.Event;
+import com.example.aroundme.model.Event;
 
 import java.util.ArrayList;
 import java.util.List;
