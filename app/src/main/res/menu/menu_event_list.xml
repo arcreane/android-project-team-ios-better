@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_favorites"
+        android:title="Favorites"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_filter"
+        android:title="Filter"
+        app:showAsAction="always">
+        <menu>
+            <item android:id="@+id/filter_all"    android:title="All"    />
+            <item android:id="@+id/filter_music"  android:title="Music"  />
+            <item android:id="@+id/filter_sports" android:title="Sports" />
+            <item android:id="@+id/filter_arts"   android:title="Arts"   />
+        </menu>
+    </item>
+
+</menu>
