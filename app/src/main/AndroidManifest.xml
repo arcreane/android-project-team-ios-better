@@ -50,6 +50,10 @@
             android:exported="false"
             android:parentActivityName=".ui.main.MainActivity" />
 
+        <service
+            android:name=".service.NotificationService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
 
     </application>
 
