@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aroundme.R;
 import com.example.aroundme.model.Event;
-import com.example.bumptech.glide.Glide;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
