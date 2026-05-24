@@ -23,6 +23,10 @@ public interface EventDao {
     @Query("SELECT * FROM favorites ORDER BY date ASC")
     LiveData<List<Event>> getAllFavorites();
 
+
+    @Query("SELECT * FROM favorites ORDER BY date ASC")
+    List<Event> getAllFavoritesNow();
+
     @Query("SELECT * FROM favorites WHERE id = :eventId LIMIT 1")
     Event getFavoriteById(String eventId);
 }
