@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.core.content.ContextCompat;
 
+import com.example.aroundme.service.NotificationService;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -171,6 +173,10 @@ public class EventListActivity extends AppCompatActivity {
             Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show();
         } else {
             repository.insertFavorite(event);
+
+            Intent serviceIntent = new Intent(this, NotificationService.class);
+            ContextCompat.startForegroundService(this, serviceIntent);
+
             Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show();
         }
 
