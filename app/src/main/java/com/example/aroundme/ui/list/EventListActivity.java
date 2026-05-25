@@ -193,6 +193,16 @@ public class EventListActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        List<Event> current = viewModel.getFilteredEvents().getValue();
+        if (current != null && !current.isEmpty()) {
+            refreshFavoriteIcons(current);
+        }
+    }
+
+
+        @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
