@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F0F2F5"
@@ -10,74 +11,98 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="24dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="50dp"
+        android:paddingBottom="32dp">
 
-        <!-- Header card -->
+        <!-- Main card -->
         <androidx.cardview.widget.CardView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="20dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/colorSurface">
+            app:cardBackgroundColor="@color/colorSurface"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:paddingStart="24dp"
+                android:paddingTop="32dp"
+                android:paddingEnd="24dp"
+                android:paddingBottom="24dp">
 
+                <!-- Category badge — wraps to text width, never compressed -->
+
+                <!-- Event name — left margin so it breathes from card edge -->
                 <TextView
                     android:id="@+id/tvDetailCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/badge_background"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
+                    android:paddingStart="32dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="32dp"
+                    android:paddingBottom="8dp"
                     android:textColor="@color/colorOnPrimary"
                     android:textSize="11sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:gravity="center" />
 
                 <TextView
                     android:id="@+id/tvDetailName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:ellipsize="end"
+                    android:lineSpacingExtra="4dp"
+                    android:maxLines="3"
                     android:textColor="@color/colorOnSurface"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    android:lineSpacingExtra="3dp" />
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
+                <!-- Divider -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginBottom="18dp"
                     android:background="@color/colorDivider" />
 
                 <!-- Date row -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="10dp">
+                    android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="Date"
                         android:src="@android:drawable/ic_menu_today"
-                        android:tint="@color/colorPrimary"
-                        android:contentDescription="Date" />
+                        android:tint="@color/colorPrimary" />
 
                     <TextView
                         android:id="@+id/tvDetailDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="14dp"
                         android:textColor="@color/colorOnSurface"
                         android:textSize="14sp" />
 
@@ -87,22 +112,23 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="10dp">
+                    android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="Time"
                         android:src="@android:drawable/ic_menu_recent_history"
-                        android:tint="@color/colorPrimary"
-                        android:contentDescription="Time" />
+                        android:tint="@color/colorPrimary" />
 
                     <TextView
                         android:id="@+id/tvDetailTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="14dp"
                         android:textColor="@color/colorOnSurface"
                         android:textSize="14sp" />
 
@@ -112,21 +138,24 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="top"
+                    android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="2dp"
+                        android:contentDescription="Venue"
                         android:src="@android:drawable/ic_menu_mylocation"
-                        android:tint="@color/colorPrimary"
-                        android:contentDescription="Venue" />
+                        android:tint="@color/colorPrimary" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="10dp">
+                        android:layout_marginStart="14dp"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/tvDetailVenueName"
@@ -140,7 +169,8 @@
                             android:id="@+id/tvDetailVenueAddress"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
+                            android:layout_marginTop="4dp"
+                            android:lineSpacingExtra="2dp"
                             android:textColor="@color/colorTextSecondary"
                             android:textSize="13sp" />
 
@@ -152,23 +182,24 @@
 
         </androidx.cardview.widget.CardView>
 
-        <!-- Action buttons -->
+        <!-- Buttons — inset from screen edges with fixed width feel -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="4dp">
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp">
 
-            <com.google.android.material.button.MaterialButton
+
+        <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnOpenMaps"
                 android:layout_width="0dp"
-                android:layout_height="52dp"
+                android:layout_height="46dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:text="Directions"
-                android:textSize="14sp"
+                android:textSize="13sp"
+                android:textAllCaps="false"
                 android:textColor="@color/colorOnPrimary"
                 style="@style/Widget.MaterialComponents.Button"
                 android:backgroundTint="@color/colorPrimary" />
@@ -176,13 +207,14 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSaveFavorite"
                 android:layout_width="0dp"
-                android:layout_height="52dp"
+                android:layout_height="46dp"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 android:text="Save"
-                android:textSize="14sp"
+                android:textSize="13sp"
+                android:textAllCaps="false"
                 android:textColor="@color/colorOnPrimary"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.MaterialComponents.Button"
                 android:backgroundTint="@color/colorAccent" />
 
         </LinearLayout>
