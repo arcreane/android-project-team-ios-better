@@ -7,15 +7,15 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface TicketmasterApi {
-    @GET("event.json")
+
+    @GET("events.json")
     Call<TicketmasterResponse> searchEvents(
-        @Query("apikey") String apiKey,
-        @Query("latlong") String latLong,
-        @Query("radius") int radius,
-        @Query("unit") String unit,
-        @Query("size") int size,
-        @Query("classificationName") String classificationName
+            @Query("apikey") String apiKey,
+            @Query("latlong") String latLong,
+            @Query("radius") int radius,
+            @Query("unit") String unit,
+            @Query("size") int size,
+            @Query("classificationName") String classificationName,
+            @Query("countryCode") String countryCode
     );
-
-
 }

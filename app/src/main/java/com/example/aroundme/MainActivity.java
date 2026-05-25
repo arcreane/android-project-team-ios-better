@@ -215,9 +215,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             MarkerOptions options = new MarkerOptions()
                     .position(position)
                     .title(event.getName())
-                    .snippet(event.getDate())
-                    .icon(BitmapDescriptorFactory.defaultMarker(
-                            categoryToHue(event.getCategory())));
+                    .snippet(event.getDate());
 
             Marker marker = googleMap.addMarker(options);
             if (marker != null) {
@@ -296,6 +294,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("AroundMe");
+        }
+
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }

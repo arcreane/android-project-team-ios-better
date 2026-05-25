@@ -22,14 +22,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Shows all favorited events stored in the Room database.
- *
- * The key difference from EventListActivity:
- * The data comes from Room LiveData, not the API.
- * When the user removes a favorite, Room updates the LiveData automatically
- * and the RecyclerView refreshes without any manual refresh call.
- */
 public class FavoritesActivity extends AppCompatActivity {
 
     private FavoritesViewModel viewModel;
@@ -51,7 +43,6 @@ public class FavoritesActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(FavoritesViewModel.class);
 
-        // Reuse EventAdapter — favorites are always "starred" so we show them all active
         adapter = new EventAdapter(
                 this::onEventClicked,
                 this::onFavoriteClicked
@@ -60,11 +51,9 @@ public class FavoritesActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        // Observe Room LiveData — updates automatically when table changes
         viewModel.getFavorites().observe(this, favorites -> {
             adapter.setEvents(favorites);
 
-            // All items shown here are favorites — mark all IDs as active
             Set<String> favIds = new HashSet<>();
             for (Event e : favorites) favIds.add(e.getId());
             adapter.setFavoriteIds(favIds);
@@ -88,10 +77,6 @@ public class FavoritesActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /**
-     * Tapping the star on a favorited item removes it.
-     * Room notifies the LiveData observer automatically — no manual refresh needed.
-     */
     private void onFavoriteClicked(Event event, boolean isCurrentlyFavorite) {
         viewModel.deleteFavorite(event);
         Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show();

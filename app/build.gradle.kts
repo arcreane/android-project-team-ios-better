@@ -69,4 +69,9 @@ dependencies {
 
     implementation("com.google.android.gms:play-services-maps:19.0.0")
     implementation("com.google.android.gms:play-services-location:21.3.0")
+
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.compiler)
+
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
 }

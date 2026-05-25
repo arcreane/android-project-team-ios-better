@@ -39,25 +39,30 @@ public class EventRepository {
     public void fetchNearbyEvents(double lat, double lng, int radiusKm,
                                   String category, RepoCallback<List<Event>> callback) {
 
+        android.util.Log.d(TAG, "Fetching events at lat=" + lat + " lng=" + lng + " radius=" + radiusKm);
+
         String latLong = lat + "," + lng;
         String apiKey = BuildConfig.TM_API_KEY;
 
-        api.searchEvents(apiKey, latLong, radiusKm, "km", 50, category)
+        // Pass null for empty category so Retrofit omits the parameter entirely
+        String categoryParam = (category == null || category.isEmpty()) ? null : category;
+
+        api.searchEvents(apiKey, latLong, radiusKm, "km", 50, categoryParam, "FR")
                 .enqueue(new Callback<TicketmasterResponse>() {
 
                     @Override
                     public void onResponse(@NonNull Call<TicketmasterResponse> call,
                                            @NonNull Response<TicketmasterResponse> response) {
+                        android.util.Log.d(TAG, "Response code: " + response.code());
                         if (response.isSuccessful() && response.body() != null
                                 && response.body().embedded != null) {
-
                             List<Event> events = EventMapper.fromTmEventList(
                                     response.body().embedded.events);
+                            android.util.Log.d(TAG, "Events received: " + events.size());
                             callback.onSuccess(events);
-
                         } else {
-                            callback.onError("No events found or API error: "
-                                    + response.code());
+                            android.util.Log.d(TAG, "Empty response or no embedded events");
+                            callback.onError("No events found or API error: " + response.code());
                         }
                     }
 
