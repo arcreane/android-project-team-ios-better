@@ -64,6 +64,12 @@ public class NotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        android.util.Log.d("NotificationService", "Service started — building foreground notification");
+
+        startForeground(
+                NotificationHelper.NOTIF_ID_SERVICE,
+                buildServiceNotification());
+
         startForeground(
                 NotificationHelper.NOTIF_ID_SERVICE,
                 buildServiceNotification()
@@ -97,7 +103,9 @@ public class NotificationService extends Service {
 
     private void checkFavoriteEvents() {
         executor.execute(() -> {
+            android.util.Log.d("NotificationService", "Checking favorite events...");
             List<Event> favorites = eventDao.getAllFavoritesNow();
+
 
             if (favorites == null || favorites.isEmpty()) {
                 stopSelf();
@@ -132,6 +140,7 @@ public class NotificationService extends Service {
                 event.getId().hashCode(),
                 intent,
                 PendingIntent.FLAG_IMMUTABLE
+
         );
 
         Notification notification = new NotificationCompat.Builder(this, NotificationHelper.CHANNEL_ALERTS)
@@ -152,6 +161,9 @@ public class NotificationService extends Service {
                         == android.content.pm.PackageManager.PERMISSION_GRANTED) {
             NotificationManagerCompat.from(this).notify(notificationId, notification);
         }
+
+        android.util.Log.d("NotificationService",
+                "Alert would fire for: " + event.getName() + " in " + minutes + " min");
 
     }
 

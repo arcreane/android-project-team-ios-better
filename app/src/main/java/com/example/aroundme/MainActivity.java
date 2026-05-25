@@ -109,6 +109,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         observeViewModel();
+        requestNotificationPermission();
+
+    }
+
+    private void requestNotificationPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this,
+                    android.Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{
+                        android.Manifest.permission.POST_NOTIFICATIONS}, 1001);
+            }
+        }
     }
 
     private void observeViewModel() {
