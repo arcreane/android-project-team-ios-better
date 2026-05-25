@@ -108,34 +108,37 @@ public class EventListActivity extends AppCompatActivity {
     }
 
     private void loadEvents() {
+        // If no coordinates received from map, use Paris as fallback
         if (lat == 0 && lng == 0) {
-            tvEmptyState.setVisibility(View.VISIBLE);
-            tvEmptyState.setText("Open this screen from the map to see events near you.");
-            return;
+            android.util.Log.d("EventListActivity",
+                    "No coordinates received, using Paris fallback");
+            lat = 48.8566;
+            lng = 2.3522;
         }
 
         viewModel.setLoading(true);
-        repository.fetchNearbyEvents(lat, lng, 10, "", new EventRepository.RepoCallback<List<Event>>() {
-            @Override
-            public void onSuccess(List<Event> result) {
-                for (Event e : result) {
-                    float[] distResult = new float[1];
-                    android.location.Location.distanceBetween(
-                            lat, lng,
-                            e.getLatitude(), e.getLongitude(),
-                            distResult);
-                    e.setDistanceKm(distResult[0] / 1000.0);
-                }
-                viewModel.setLoading(false);
-                viewModel.setAllEvents(result);
-            }
+        repository.fetchNearbyEvents(lat, lng, 100, "",
+                new EventRepository.RepoCallback<List<Event>>() {
+                    @Override
+                    public void onSuccess(List<Event> result) {
+                        for (Event e : result) {
+                            float[] distResult = new float[1];
+                            android.location.Location.distanceBetween(
+                                    lat, lng,
+                                    e.getLatitude(), e.getLongitude(),
+                                    distResult);
+                            e.setDistanceKm(distResult[0] / 1000.0);
+                        }
+                        viewModel.setLoading(false);
+                        viewModel.setAllEvents(result);
+                    }
 
-            @Override
-            public void onError(String message) {
-                viewModel.setLoading(false);
-                viewModel.setErrorMessage(message);
-            }
-        });
+                    @Override
+                    public void onError(String message) {
+                        viewModel.setLoading(false);
+                        viewModel.setErrorMessage(message);
+                    }
+                });
     }
 
     private void refreshFavoriteIcons(List<Event> events) {

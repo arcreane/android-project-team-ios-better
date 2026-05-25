@@ -174,10 +174,37 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         centerMapOn(location.getLatitude(), location.getLongitude());
                         loadEvents(location.getLatitude(), location.getLongitude());
                     } else {
-                        Toast.makeText(this, "Could not get location. Try again.",
-                                Toast.LENGTH_SHORT).show();
+                        fusedLocationClient.getLastLocation()
+                                .addOnSuccessListener(this, lastKnown -> {
+                                    if (lastKnown != null) {
+                                        lastLocation = lastKnown;
+                                        centerMapOn(lastKnown.getLatitude(), lastKnown.getLongitude());
+                                        loadEvents(lastKnown.getLatitude(), lastKnown.getLongitude());
+                                    } else {
+                                        android.util.Log.d("MainActivity",
+                                                "GPS unavailable, using Paris default");
+                                        useParisFallback();
+                                    }
+                                })
+                                .addOnFailureListener(e -> useParisFallback());
                     }
-                });
+                })
+                .addOnFailureListener(e -> useParisFallback());
+    }
+
+    private void useParisFallback() {
+        double parisLat = 48.8566;
+        double parisLng = 2.3522;
+        // Create a synthetic location object so EventListActivity gets coordinates
+        android.location.Location fallback = new android.location.Location("fallback");
+        fallback.setLatitude(parisLat);
+        fallback.setLongitude(parisLng);
+        lastLocation = fallback;
+        centerMapOn(parisLat, parisLng);
+        loadEvents(parisLat, parisLng);
+        Toast.makeText(this,
+                "Using Paris location. Enable GPS for your exact position.",
+                Toast.LENGTH_LONG).show();
     }
 
     private void centerMapOn(double lat, double lng) {
