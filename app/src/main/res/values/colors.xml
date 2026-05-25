@@ -11,4 +11,5 @@
     <color name="colorDivider">#BDBDBD</color>
     <color name="colorFavoriteActive">#FF6F00</color>
     <color name="colorFavoriteInactive">#BDBDBD</color>
+    <color name="colorBackgroundGrey">#F0F2F5</color>
 </resources>
