@@ -11,7 +11,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
 import com.example.aroundme.R;
 import com.example.aroundme.data.EventRepository;
 import com.example.aroundme.model.Event;
@@ -71,15 +70,14 @@ public class EventDetailActivity extends AppCompatActivity {
     }
 
     private void bindViews() {
-        ImageView ivImage = findViewById(R.id.ivDetailImage);
-        TextView tvName = findViewById(R.id.tvDetailName);
-        TextView tvCategory = findViewById(R.id.tvDetailCategory);
-        TextView tvDate = findViewById(R.id.tvDetailDate);
-        TextView tvTime = findViewById(R.id.tvDetailTime);
-        TextView tvVenueName = findViewById(R.id.tvDetailVenueName);
-        TextView tvVenueAddress = findViewById(R.id.tvDetailVenueAddress);
-        MaterialButton btnMaps = findViewById(R.id.btnOpenMaps);
-        btnSaveFavorite = findViewById(R.id.btnSaveFavorite);
+        TextView tvName          = findViewById(R.id.tvDetailName);
+        TextView tvCategory      = findViewById(R.id.tvDetailCategory);
+        TextView tvDate          = findViewById(R.id.tvDetailDate);
+        TextView tvTime          = findViewById(R.id.tvDetailTime);
+        TextView tvVenueName     = findViewById(R.id.tvDetailVenueName);
+        TextView tvVenueAddress  = findViewById(R.id.tvDetailVenueAddress);
+        MaterialButton btnMaps   = findViewById(R.id.btnOpenMaps);
+        btnSaveFavorite          = findViewById(R.id.btnSaveFavorite);
 
         tvName.setText(currentEvent.getName());
         tvCategory.setText(currentEvent.getCategory());
@@ -96,13 +94,6 @@ public class EventDetailActivity extends AppCompatActivity {
         } else {
             tvVenueAddress.setText(currentEvent.getVenueAddress());
         }
-
-        Glide.with(this)
-                .load(currentEvent.getImageUrl())
-                .placeholder(android.R.drawable.ic_menu_gallery)
-                .error(android.R.drawable.ic_menu_gallery)
-                .centerCrop()
-                .into(ivImage);
 
         btnMaps.setOnClickListener(v -> openInGoogleMaps());
         btnSaveFavorite.setOnClickListener(v -> toggleFavorite());

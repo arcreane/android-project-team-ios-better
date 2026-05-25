@@ -4,31 +4,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorBackground">
+    android:background="#F0F2F5"
+    android:fitsSystemWindows="true">
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
         android:visibility="gone" />
 
     <TextView
         android:id="@+id/tvEmptyState"
-        style="@style/TextSubtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="32dp"
+        android:padding="48dp"
         android:text="No events found. Try a different filter."
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="15sp"
         android:visibility="gone" />
 
-    <!-- Single column in portrait -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewEvents"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:padding="4dp" />
+        android:paddingTop="8dp"
+        android:paddingBottom="16dp" />
 
 </LinearLayout>

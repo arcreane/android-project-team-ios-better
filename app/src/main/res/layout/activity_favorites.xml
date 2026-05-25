@@ -4,16 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorBackground">
+    android:background="#F0F2F5"
+    android:fitsSystemWindows="true">
 
     <TextView
         android:id="@+id/tvFavoritesEmpty"
-        style="@style/TextSubtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="32dp"
-        android:text="You have no saved favorites yet."
+        android:padding="48dp"
+        android:text="No saved favorites yet."
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="15sp"
         android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -21,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:padding="4dp" />
+        android:paddingTop="8dp"
+        android:paddingBottom="16dp" />
 
 </LinearLayout>

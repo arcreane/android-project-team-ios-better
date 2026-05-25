@@ -3,88 +3,150 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
+    android:background="#F0F2F5"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="24dp">
 
-        <!-- Hero image -->
-        <ImageView
-            android:id="@+id/ivDetailImage"
-            android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:contentDescription="Event image"
-            android:scaleType="centerCrop" />
-
-        <!-- Content card -->
+        <!-- Header card -->
         <androidx.cardview.widget.CardView
-            style="@style/CardStyle"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp">
+            android:layout_margin="16dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/colorSurface">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/tvDetailName"
-                    style="@style/TextTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp" />
+                android:padding="20dp">
 
                 <TextView
                     android:id="@+id/tvDetailCategory"
-                    style="@style/TextSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:background="@color/colorPrimary"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:paddingTop="3dp"
-                    android:paddingBottom="3dp"
-                    android:textColor="@color/colorOnPrimary" />
+                    android:background="@drawable/badge_background"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:textColor="@color/colorOnPrimary"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
 
-                <!-- Divider -->
+                <TextView
+                    android:id="@+id/tvDetailName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:textColor="@color/colorOnSurface"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:lineSpacingExtra="3dp" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
                     android:background="@color/colorDivider" />
 
-                <TextView
-                    android:id="@+id/tvDetailDate"
-                    style="@style/TextSubtitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/tvDetailTime"
-                    style="@style/TextSubtitle"
+                <!-- Date row -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="10dp">
 
-                <TextView
-                    android:id="@+id/tvDetailVenueName"
-                    style="@style/TextTitle"
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@android:drawable/ic_menu_today"
+                        android:tint="@color/colorPrimary"
+                        android:contentDescription="Date" />
+
+                    <TextView
+                        android:id="@+id/tvDetailDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/colorOnSurface"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <!-- Time row -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="10dp">
 
-                <TextView
-                    android:id="@+id/tvDetailVenueAddress"
-                    style="@style/TextSubtitle"
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@android:drawable/ic_menu_recent_history"
+                        android:tint="@color/colorPrimary"
+                        android:contentDescription="Time" />
+
+                    <TextView
+                        android:id="@+id/tvDetailTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/colorOnSurface"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <!-- Venue row -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@android:drawable/ic_menu_mylocation"
+                        android:tint="@color/colorPrimary"
+                        android:contentDescription="Venue" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="10dp">
+
+                        <TextView
+                            android:id="@+id/tvDetailVenueName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorOnSurface"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvDetailVenueAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:textColor="@color/colorTextSecondary"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -95,26 +157,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="12dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="4dp">
 
-            <!-- Implicit Intent to Google Maps (R1) -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnOpenMaps"
-                style="@style/ButtonPrimary"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_height="52dp"
                 android:layout_weight="1"
-                android:text="Directions" />
+                android:layout_marginEnd="8dp"
+                android:text="Directions"
+                android:textSize="14sp"
+                android:textColor="@color/colorOnPrimary"
+                style="@style/Widget.MaterialComponents.Button"
+                android:backgroundTint="@color/colorPrimary" />
 
-            <!-- Save / remove from favorites -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSaveFavorite"
-                style="@style/ButtonPrimary"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="52dp"
                 android:layout_weight="1"
-                android:text="Save" />
+                android:layout_marginStart="8dp"
+                android:text="Save"
+                android:textSize="14sp"
+                android:textColor="@color/colorOnPrimary"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:backgroundTint="@color/colorAccent" />
 
         </LinearLayout>
 

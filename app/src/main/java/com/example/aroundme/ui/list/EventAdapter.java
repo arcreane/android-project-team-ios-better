@@ -12,32 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aroundme.R;
 import com.example.aroundme.model.Event;
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * EventAdapter bridges our List<Event> data and the RecyclerView that displays it.
- *
- * How RecyclerView works:
- *   - RecyclerView asks the adapter how many items there are (getItemCount).
- *   - For each visible row, RecyclerView either creates a new ViewHolder
- *     (onCreateViewHolder) or reuses one that scrolled off screen.
- *   - onBindViewHolder fills the reused/new ViewHolder with data for position i.
- *
- * ViewHolder pattern: we find views by ID once (in the constructor) and store
- * the references. This avoids calling findViewById on every bind, which is slow.
- */
+
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
 
     private List<Event> events = new ArrayList<>();
 
-    // Callbacks to the Activity — the adapter does not navigate or write to DB itself
     private final OnEventClickListener clickListener;
     private final OnFavoriteClickListener favoriteListener;
 
-    // Track which event IDs are currently favorited so the star icon is correct
     private final java.util.Set<String> favoriteIds = new java.util.HashSet<>();
 
     public interface OnEventClickListener {
@@ -54,27 +40,17 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         this.favoriteListener = favoriteListener;
     }
 
-    // --- Data update methods ---
 
-    /**
-     * Replace the list and notify the RecyclerView to redraw.
-     * Always call this on the main thread.
-     */
     public void setEvents(List<Event> newEvents) {
         events = newEvents != null ? newEvents : new ArrayList<>();
         notifyDataSetChanged();
     }
 
-    /**
-     * Update the set of favorited IDs so star icons reflect current DB state.
-     */
     public void setFavoriteIds(java.util.Set<String> ids) {
         favoriteIds.clear();
         if (ids != null) favoriteIds.addAll(ids);
         notifyDataSetChanged();
     }
-
-    // --- RecyclerView.Adapter methods ---
 
     @NonNull
     @Override
@@ -96,26 +72,24 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         return events.size();
     }
 
-    // --- ViewHolder ---
 
     class EventViewHolder extends RecyclerView.ViewHolder {
 
-        private final ImageView ivThumbnail;
         private final TextView tvName;
         private final TextView tvDate;
         private final TextView tvDistance;
         private final TextView tvCategory;
         private final ImageButton btnFavorite;
+        private final View viewCategoryBar;
 
         EventViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Find views once — store references
-            ivThumbnail = itemView.findViewById(R.id.ivEventThumbnail);
-            tvName      = itemView.findViewById(R.id.tvEventName);
-            tvDate      = itemView.findViewById(R.id.tvEventDate);
-            tvDistance  = itemView.findViewById(R.id.tvEventDistance);
-            tvCategory  = itemView.findViewById(R.id.tvEventCategory);
-            btnFavorite = itemView.findViewById(R.id.btnFavorite);
+            tvName         = itemView.findViewById(R.id.tvEventName);
+            tvDate         = itemView.findViewById(R.id.tvEventDate);
+            tvDistance     = itemView.findViewById(R.id.tvEventDistance);
+            tvCategory     = itemView.findViewById(R.id.tvEventCategory);
+            btnFavorite    = itemView.findViewById(R.id.btnFavorite);
+            viewCategoryBar = itemView.findViewById(R.id.viewCategoryBar);
         }
 
         void bind(Event event, boolean isFavorite) {
@@ -123,23 +97,37 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             tvDate.setText(event.getDate() != null ? event.getDate() : "Date TBA");
             tvCategory.setText(event.getCategory());
 
-            // Format distance: show "X.X km" or "Nearby" if distance is 0
             if (event.getDistanceKm() > 0) {
                 tvDistance.setText(String.format("%.1f km away", event.getDistanceKm()));
+            } else if (event.getVenueName() != null) {
+                tvDistance.setText(event.getVenueName());
             } else {
-                tvDistance.setText("Nearby");
+                tvDistance.setText("Venue TBA");
             }
 
-            // Load thumbnail with Glide
-            // placeholder shown while image loads, error shown if load fails
-            Glide.with(itemView.getContext())
-                    .load(event.getImageUrl())
-                    .placeholder(android.R.drawable.ic_menu_gallery)
-                    .error(android.R.drawable.ic_menu_gallery)
-                    .centerCrop()
-                    .into(ivThumbnail);
+            // Color the left bar by category
+            int barColor;
+            if (event.getCategory() == null) {
+                barColor = android.graphics.Color.parseColor("#1565C0");
+            } else {
+                switch (event.getCategory().toLowerCase()) {
+                    case "music":
+                        barColor = android.graphics.Color.parseColor("#1565C0");
+                        break;
+                    case "sports":
+                        barColor = android.graphics.Color.parseColor("#2E7D32");
+                        break;
+                    case "arts & theatre":
+                    case "arts":
+                        barColor = android.graphics.Color.parseColor("#6A1B9A");
+                        break;
+                    default:
+                        barColor = android.graphics.Color.parseColor("#E65100");
+                        break;
+                }
+            }
+            viewCategoryBar.setBackgroundColor(barColor);
 
-            // Star icon state
             btnFavorite.setImageResource(
                     isFavorite ? android.R.drawable.btn_star_big_on
                             : android.R.drawable.btn_star_big_off);
@@ -147,7 +135,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                     isFavorite ? R.color.colorFavoriteActive
                             : R.color.colorFavoriteInactive));
 
-            // Click listeners — delegate to the Activity
             itemView.setOnClickListener(v -> clickListener.onEventClick(event));
             btnFavorite.setOnClickListener(v ->
                     favoriteListener.onFavoriteClick(event, isFavorite));

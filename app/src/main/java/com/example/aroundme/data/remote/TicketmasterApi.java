@@ -14,8 +14,9 @@ public interface TicketmasterApi {
             @Query("latlong") String latLong,
             @Query("radius") int radius,
             @Query("unit") String unit,
-            @Query("size") int size,
+            @Query("countryCode") String countryCode,
             @Query("classificationName") String classificationName,
-            @Query("countryCode") String countryCode
+            @Query("size") int size,
+            @Query("locale") String locale
     );
 }
