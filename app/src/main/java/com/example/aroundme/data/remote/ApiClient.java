@@ -5,8 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    private static final String BASE_URL = "https://app.ticketmaster.com/discovery/v2/";
-    private static Retrofit retrofitInstance;
+    private static final String BASE_URL = "https://app.ticketmaster.com/discovery/v2/";    private static Retrofit retrofitInstance;
 
     public static Retrofit getClient() {
         if (retrofitInstance == null) {

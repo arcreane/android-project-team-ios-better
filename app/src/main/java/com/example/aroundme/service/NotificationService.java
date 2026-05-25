@@ -32,6 +32,13 @@ public class NotificationService extends Service {
     private static final long CHECK_INTERVAL_MS = 60_000;
     private static final long ALERT_THRESHOLD_MINUTES = 30;
 
+    public static void startService(android.content.Context context, Event event) {
+        Intent intent = new Intent(context, NotificationService.class);
+        intent.putExtra("event_id", event.getId());
+        intent.putExtra("event_name", event.getName());
+        context.startForegroundService(intent);
+    }
+
     private Handler handler;
     private Executor executor;
     private EventDao eventDao;
@@ -139,7 +146,13 @@ public class NotificationService extends Service {
         int notificationId =
                 NotificationHelper.NOTIF_ID_ALERT_BASE + Math.abs(event.getId().hashCode());
 
-        NotificationManagerCompat.from(this).notify(notificationId, notification);
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.TIRAMISU ||
+                getApplicationContext().checkSelfPermission(
+                        android.Manifest.permission.POST_NOTIFICATIONS)
+                        == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            NotificationManagerCompat.from(this).notify(notificationId, notification);
+        }
+
     }
 
     public static long minutesUntilEvent(Event event) {

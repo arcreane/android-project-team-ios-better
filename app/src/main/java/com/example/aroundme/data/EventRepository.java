@@ -39,30 +39,34 @@ public class EventRepository {
     public void fetchNearbyEvents(double lat, double lng, int radiusKm,
                                   String category, RepoCallback<List<Event>> callback) {
 
-        String latLong = lat + "," + lng;
-        String apiKey = BuildConfig.TM_API_KEY;
+        android.util.Log.d(TAG, "Fetching events at lat=" + lat + " lng=" + lng);
 
-        api.searchEvents(apiKey, latLong, radiusKm, "km", 50, category)
+        String apiKey = BuildConfig.TM_API_KEY;
+        String latLong = lat + "," + lng;
+        String categoryParam = (category == null || category.isEmpty()) ? null : category;
+
+        api.searchEvents(apiKey, latLong, 100, "km", "FR", categoryParam, 50, "*")
                 .enqueue(new Callback<TicketmasterResponse>() {
 
                     @Override
                     public void onResponse(@NonNull Call<TicketmasterResponse> call,
                                            @NonNull Response<TicketmasterResponse> response) {
+                        android.util.Log.d(TAG, "Response code: " + response.code());
                         if (response.isSuccessful() && response.body() != null
                                 && response.body().embedded != null) {
-
                             List<Event> events = EventMapper.fromTmEventList(
                                     response.body().embedded.events);
+                            android.util.Log.d(TAG, "Events received: " + events.size());
                             callback.onSuccess(events);
-
                         } else {
-                            callback.onError("No events found or API error: "
-                                    + response.code());
+                            android.util.Log.d(TAG, "Empty or failed response: " + response.code());
+                            callback.onError("No events found or API error: " + response.code());
                         }
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<TicketmasterResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<TicketmasterResponse> call,
+                                          @NonNull Throwable t) {
                         Log.e(TAG, "API call failed", t);
                         callback.onError("Network error: " + t.getMessage());
                     }
